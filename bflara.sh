@@ -6,13 +6,13 @@
 ### 3. implement helper functions you defined in previous step
 ### ==============================================================================
 
-### Created by author_name ( author_username ) on meta_today
-### Based on https://github.com/pforret/bashew bashew_version
+### Created by Peter Forret ( cinemapub ) on 2025-11-14
+### Based on https://github.com/pforret/bashew 1.22.0
 script_version="0.0.1" # if there is a VERSION.md in this script's folder, that will have priority over this version number
-readonly script_author="author@email.com"
-readonly script_created="meta_today"
+readonly script_author="p.forret@brightfish.be"
+readonly script_created="2025-11-14"
 readonly run_as_root=-1 # run_as_root: 0 = don't check anything / 1 = script MUST run as root / -1 = script MAY NOT run as root
-readonly script_description="package_description"
+readonly script_description="Quick Laravel Setup"
 
 function Option:config() {
   ### Change the next lines to reflect which flags/options/parameters you need
