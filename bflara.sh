@@ -2,7 +2,7 @@
 ### ==============================================================================
 ### SO HOW DO YOU PROCEED WITH YOUR SCRIPT?
 ### 1. define the flags/options/parameters and defaults you need in Option:config()
-### 2. implement the different actions in Script:main() directly or with helper functions do_action1
+### 2. implement the different actions in Script:main() directly or with helper functions do_new
 ### 3. implement helper functions you defined in previous step
 ### ==============================================================================
 
@@ -46,7 +46,7 @@ flag|f|FORCE|do not ask for confirmation (always yes)
 option|L|LOG_DIR|folder for log files |$HOME/log/$script_prefix
 option|T|TMP_DIR|folder for temp files|/tmp/$script_prefix
 #option|W|WIDTH|width of the picture|800
-choice|1|action|action to perform|action1,action2,check,env,update
+choice|1|action|action to perform|new,action2,check,env,update
 param|?|input|input file/text
 " -v -e '^#' -e '^\s*$'
 }
@@ -61,10 +61,42 @@ function Script:main() {
   Os:require "awk"
 
   case "${action,,}" in
-  action1)
-    #TIP: use «$script_prefix action1» to ...
-    #TIP:> $script_prefix action1
-    do_action1
+  new)
+    #TIP: use «$script_prefix new» to ...
+    #TIP:> $script_prefix new
+    default_name="$(random_word)-$(random_word)"
+    project_name=$(IO:question "What is the name of the project?" "$default_name")
+    IO:announce "Creating Laravel Project '$project_name'"
+    laravel new "$project_name" --git --livewire --pest --npm
+    [[ ! -d "$project_name" ]] && IO:die "Could not create new Laravel project"
+    cd "$project_name" || IO:die "Cannot change to folder '$project_name'"
+
+    IO:announce "- laravel-ide-helper"
+    composer require --dev barryvdh/laravel-debugbar
+    composer require --dev barryvdh/laravel-ide-helper
+    php artisan ide-helper:generate
+    php artisan ide-helper:models -RW
+    php artisan ide-helper:meta
+    composer require --dev laravel/pint
+
+#    IO:announce "- laravel boost" ## now default in laravel new
+#    composer require --dev laravel/boost
+#    php artisan boost:install
+
+    echo "# $project_name" > README.md
+    if [[ -n $(command -v mkdox) ]] ; then
+      IO:announce "- mkdox"
+      mkdox -f new .
+      IO:success "Now specify the details of your project in README.md"
+      IO:success "Run the documents server via mkdox"
+    fi
+
+    if [[ -n $(command -v valet) ]] ; then
+      IO:announce "- valet"
+      valet link
+      IO:success
+    fi
+
     ;;
 
   action2)
@@ -109,8 +141,29 @@ function Script:main() {
 ## Put your helper scripts here
 #####################################################################
 
-function do_action1() {
-  IO:log "action1"
+function random_word() {
+  (
+    if aspell -v > /dev/null 2>&1; then
+      aspell -d en dump master | aspell -l en expand
+    elif [[ -f /usr/share/dict/words ]]; then
+      # works on MacOS
+      cat /usr/share/dict/words
+    elif [[ -f /usr/dict/words ]]; then
+      cat /usr/dict/words
+    else
+      printf 'zero,one,two,three,four,five,six,seven,eight,nine,ten,alfa,bravo,charlie,delta,echo,foxtrot,golf,hotel,india,juliet,kilo,lima,mike,november,oscar,papa,quebec,romeo,sierra,tango,uniform,victor,whiskey,xray,yankee,zulu%.0s' {1..3000} |
+        tr ',' "\n"
+    fi
+  ) |
+    awk 'length($1) > 2 && length($1) < 8 {print}' |
+    grep -v "'" |
+    grep -v " " |
+    awk "NR == $RANDOM {print tolower(\$0)}"
+}
+
+
+function do_new() {
+  IO:log "new"
   # Examples of required binaries/scripts and how to install them
   # Os:require "ffmpeg"
   # Os:require "convert" "imagemagick"
