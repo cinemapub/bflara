@@ -46,7 +46,7 @@ flag|f|FORCE|do not ask for confirmation (always yes)
 option|L|LOG_DIR|folder for log files |$HOME/log/$script_prefix
 option|T|TMP_DIR|folder for temp files|/tmp/$script_prefix
 #option|W|WIDTH|width of the picture|800
-choice|1|action|action to perform|new,action2,check,env,update
+choice|1|action|action to perform|new,check,env,update
 param|?|input|input file/text
 " -v -e '^#' -e '^\s*$'
 }
@@ -62,7 +62,7 @@ function Script:main() {
 
   case "${action,,}" in
   new)
-    #TIP: use «$script_prefix new» to ...
+    #TIP: use «$script_prefix new» to create new Laravel project and install all crucial add-ons
     #TIP:> $script_prefix new
     default_name="$(random_word)-$(random_word)"
     project_name=$(IO:question "What is the name of the project?" "$default_name")
@@ -97,19 +97,6 @@ function Script:main() {
       IO:success
     fi
 
-    ;;
-
-  action2)
-    #TIP: use «$script_prefix action2» to ...
-    #TIP:> $script_prefix action2
-    do_action2
-    ;;
-
-  action3)
-    #TIP: use «$script_prefix action3» to ...
-    #TIP:> $script_prefix action3
-    # Os:require "convert" "imagemagick"
-    # CONVERT $input $output
     ;;
 
   check | env)

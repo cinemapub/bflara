@@ -14,23 +14,22 @@ Quick Laravel Setup
 
 ```
 Program : bflara  by p.forret@brightfish.be
-Version : v0.0.1 (Apr 22 16:07:13 2023)
+Version : v0.0.3 (Nov 14 09:44:21 2025)
 Purpose : Quick Laravel Setup
-Usage   : bflara [-h] [-q] [-v] [-f] [-l <log_dir>] [-t <tmp_dir>] <action>
+Usage   : bflara [-h] [-Q] [-V] [-f] [-L <LOG_DIR>] [-T <TMP_DIR>] <action> <input?>
 Flags, options and parameters:
     -h|--help        : [flag] show usage [default: off]
-    -q|--quiet       : [flag] no output [default: off]
-    -v|--verbose     : [flag] also show debug messages [default: off]
-    -f|--force       : [flag] do not ask for confirmation (always yes) [default: off]
-    -l|--log_dir <?> : [option] folder for log files   [default: /Users/pforret/log/script]
-    -t|--tmp_dir <?> : [option] folder for temp files  [default: /tmp/script]
-    <action>         : [choice] action to perform  [options: action1,action2,check,env,update]
-                                  
+    -Q|--QUIET       : [flag] no output [default: off]
+    -V|--VERBOSE     : [flag] also show debug messages [default: off]
+    -f|--FORCE       : [flag] do not ask for confirmation (always yes) [default: off]
+    -L|--LOG_DIR <?> : [option] folder for log files   [default: /Users/pforret/log/bflara]
+    -T|--TMP_DIR <?> : [option] folder for temp files  [default: /tmp/bflara]
+    <action>         : [choice] action to perform  [options: new,check,env,update]
+    <input>          : [parameter] input file/text (optional)
+                                                                                                                                                                                                    
 ### TIPS & EXAMPLES
-* use bflara action1 to ...
-  bflara action1
-* use bflara action2 to ...
-  bflara action2
+* use bflara new to create new Laravel project and install all crucial add-ons
+  bflara new
 * use bflara check to check if this script is ready to execute and what values the options/flags are
   bflara check
 * use bflara env to generate an example .env file
@@ -38,8 +37,7 @@ Flags, options and parameters:
 * use bflara update to update to the latest version
   bflara update
 * >>> bash script created with pforret/bashew
-* >>> for bash development, also check out pforret/setver and pforret/progressbar
-```
+* >>> for bash development, also check out pforret/setver and pforret/progressbar```
 
 ## ⚡️ Examples
 
